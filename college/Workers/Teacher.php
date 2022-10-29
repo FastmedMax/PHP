@@ -20,7 +20,7 @@ class Teacher extends \College\Entities\Human {
     public function getDismissReason() : ?string {
         return $this->dismissReason;
     }
-    public function getDismissDateTime() : string {
+    public function getDismissDateTime() : ?string {
         return $this->dismissDateTime;
     }
 
