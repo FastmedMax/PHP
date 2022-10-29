@@ -18,4 +18,11 @@ class Student extends \College\Entities\Human {
         private DateTime $year_of_admission
     ) {}
 
+    public function Deduct(string $reason) : void
+    {
+        $this->deduction = true;
+        $this->date_of_deduction = new DateTime();
+        $this->reason_of_deduction = $reason;
+    }
+
 }
