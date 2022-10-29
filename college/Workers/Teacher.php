@@ -1,6 +1,10 @@
 <?php
 
 class Teacher extends \College\Entities\Human {
+    private bool $isDismissed = false;
+    private ?string $dismissReason = null;
+    private ?string $dismissDateTime = null;
+
     public function __construct(
         private string $firstName,
         private string $lastName,
@@ -11,6 +15,19 @@ class Teacher extends \College\Entities\Human {
         private array $subjects
     ) {
         parent::__construct($firstName, $lastName, $birthDate, $gender);
+    }
+
+    public function getDismissReason() : ?string {
+        return $this->dismissReason;
+    }
+    public function getDismissDateTime() : string {
+        return $this->dismissDateTime;
+    }
+
+    public function dismiss(string $reason) : void {
+        $this->dismissReason = $reason;
+        $this->isDismissed = true;
+        $this->dismissDateTime = date('Y-m-d H:i:s');
     }
 
     public function getAcademicDegree() : string {
