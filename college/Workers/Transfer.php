@@ -6,17 +6,17 @@ use \DateTime;
 
 class Transfer {
     public function __construct(
-        private string $oldDepartment,
-        private string $newDepartment,
+        private ?Department $oldDepartment,
+        private Department $newDepartment,
         private string $reason,
         private DateTime $dateTime
     ) { }
 
-    public function getOldDepartment() : string {
+    public function getOldDepartment() : Department {
         return $this->oldDepartment;
     }
 
-    public function getNewDepartment() : string {
+    public function getNewDepartment() : Department {
         return $this->newDepartment;
     }
 

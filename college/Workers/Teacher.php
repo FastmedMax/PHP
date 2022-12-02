@@ -12,6 +12,8 @@ class Teacher extends \College\Entities\Human {
     private TitleChangeHistory $titleChangeHistory;
     private ProfileSubjectChangeHistory $profileSubjectChangeHistory;
 
+    private ?Department $department = null;
+
     public function __construct(
         private string $firstName,
         private string $lastName,
@@ -22,7 +24,6 @@ class Teacher extends \College\Entities\Human {
         private string $profileSubject,
         private array $subjects,
         private string $jobTitle,
-        private string $department,
         private DateTime $hireDate
     ) {
         $this->vacationController = new VacationController();
@@ -36,7 +37,7 @@ class Teacher extends \College\Entities\Human {
     }
 
     // Transfers
-    public function transfer($newDepartment, $reason) : void {
+    public function transfer(Department $newDepartment, string $reason) : void {
         $this->transferHistory->addTransfer(
             new Transfer(
                 $this->department,
@@ -53,20 +54,20 @@ class Teacher extends \College\Entities\Human {
     }
 
     // Vacations
-    public function getVacationController() {
+    public function getVacationController() : VacationController{
         return $this->vacationController;
     }
 
-    public function getDismissController() {
+    public function getDismissController() : DismissController {
         return $this->dismissController;
     }
 
     // Subjects
-    public function getProfileSubject() {
+    public function getProfileSubject() : string {
         return $this->profileSubject;
     }
 
-    public function setProfileSubject($value) {
+    public function setProfileSubject(string $value) : void {
         $this->profileSubjectChangeHistory->addSubjectChange(
             new ProfileSubjectChange(
                 $this->profileSubject,
@@ -78,16 +79,16 @@ class Teacher extends \College\Entities\Human {
         $this->profileSubject = $value;
     }
 
-    public function getProfileSubjectChangeHistory(){
+    public function getProfileSubjectChangeHistory() : ProfileSubjectChangeHistory {
         return $this->profileSubjectChangeHistory;
     }
 
     // Job Titles
-    public function getJobTitle() {
+    public function getJobTitle() : string {
         return $this->jobTitle;
     }
 
-    public function setJobTitle($title) {
+    public function setJobTitle(string $title) : void {
         $this->titleChangeHistory->addTitleChange(
             new TitleChange(
                 $this->jobTitle,
