@@ -4,7 +4,7 @@ namespace College\Workers;
 
 use \DateTime;
 
-class Vacation {
+class VacationController {
     private ?DateTime $startDateTime = null;
     private ?DateTime $finishDateTime = null;
 
@@ -21,6 +21,9 @@ class Vacation {
     }
 
     public function startVacation() {
+        if ($this->isOnVacation())
+            return;
+
         $this->startDateTime = new DateTime();
         $this->finishDateTime = null;
     }

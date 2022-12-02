@@ -5,10 +5,9 @@ namespace College\Workers;
 use \DateTime;
 
 class Teacher extends \College\Entities\Human {
-    private ?string $dismissReason = null;
-    private ?string $dismissDateTime = null;
+    private DismissController $dismissController;
+    private VacationController $vacationController;
 
-    private Vacation $vacationController;
     private TransferHistory $transferHistory;
     private TitleChangeHistory $titleChangeHistory;
     private ProfileSubjectChangeHistory $profileSubjectChangeHistory;
@@ -25,13 +24,17 @@ class Teacher extends \College\Entities\Human {
         private string $jobTitle,
         private string $department
     ) {
-        $this->vacationController = new Vacation();
+        $this->vacationController = new VacationController();
+        $this->dismissController = new DismissController();
+
         $this->transferHistory = new TransferHistory();
         $this->titleChangeHistory = new TitleChangeHistory();
         $this->profileSubjectChangeHistory = new ProfileSubjectChangeHistory();
+
         parent::__construct($firstName, $lastName, $birthDate, $gender);
     }
 
+    // Transfers
     public function transfer($newDepartment, $reason) : void {
         $this->transferHistory->addTransfer(
             new Transfer(
@@ -44,10 +47,20 @@ class Teacher extends \College\Entities\Human {
         $this->department = $newDepartment;
     }
 
-    public function getVacationControl() {
+    public function getTransferHistory() : TransferHistory {
+        return $this->transferHistory;
+    }
+
+    // Vacations
+    public function getVacationController() {
         return $this->vacationController;
     }
 
+    public function getDismissController() {
+        return $this->dismissController;
+    }
+
+    // Subjects
     public function getProfileSubject() {
         return $this->profileSubject;
     }
@@ -68,6 +81,7 @@ class Teacher extends \College\Entities\Human {
         return $this->profileSubjectChangeHistory;
     }
 
+    // Job Titles
     public function getJobTitle() {
         return $this->jobTitle;
     }
@@ -83,19 +97,12 @@ class Teacher extends \College\Entities\Human {
         $this->jobTitle = $title;
     }
 
-    public function getDismissReason() : ?string {
-        return $this->dismissReason;
+    public function getTitleChangeHistory() : TitleChangeHistory {
+        return $this->titleChangeHistory;
     }
     
-    public function getDismissDateTime() : ?string {
-        return $this->dismissDateTime;
-    }
+    // Other getters
 
-    public function dismiss(string $reason) : void {
-        $this->dismissReason = $reason;
-        $this->dismissDateTime = date('Y-m-d H:i:s');
-    }
-    
     public function getAcademicDegree() : string {
         return $this->academicDegree;
     }
@@ -106,13 +113,5 @@ class Teacher extends \College\Entities\Human {
 
     public function getSubjects() : array {
         return $this->subjects;
-    }
-
-    public function getTransferHistory() : TransferHistory {
-        return $this->transferHistory;
-    }
-
-    public function getTitleChangeHistory() : TitleChangeHistory {
-        return $this->titleChangeHistory;
     }
 }
