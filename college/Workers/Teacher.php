@@ -22,7 +22,8 @@ class Teacher extends \College\Entities\Human {
         private string $profileSubject,
         private array $subjects,
         private string $jobTitle,
-        private string $department
+        private string $department,
+        private DateTime $hireDate
     ) {
         $this->vacationController = new VacationController();
         $this->dismissController = new DismissController();
@@ -113,5 +114,9 @@ class Teacher extends \College\Entities\Human {
 
     public function getSubjects() : array {
         return $this->subjects;
+    }
+
+    public function getHireDate() : DateTime {
+        return $this->hireDate;
     }
 }
