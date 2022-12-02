@@ -7,6 +7,8 @@ use \DateTime;
 class Teacher extends \College\Entities\Human {
     private ?string $dismissReason = null;
     private ?string $dismissDateTime = null;
+
+    private Vacation $vacationController;
     private TransferHistory $transferHistory;
     private TitleChangeHistory $titleChangeHistory;
     private ProfileSubjectChangeHistory $profileSubjectChangeHistory;
@@ -23,6 +25,7 @@ class Teacher extends \College\Entities\Human {
         private string $jobTitle,
         private string $department
     ) {
+        $this->vacationController = new Vacation();
         $this->transferHistory = new TransferHistory();
         $this->titleChangeHistory = new TitleChangeHistory();
         $this->profileSubjectChangeHistory = new ProfileSubjectChangeHistory();
@@ -39,6 +42,10 @@ class Teacher extends \College\Entities\Human {
             )
         );
         $this->department = $newDepartment;
+    }
+
+    public function getVacationControl() {
+        return $this->vacationController;
     }
 
     public function getProfileSubject() {
