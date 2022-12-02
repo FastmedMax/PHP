@@ -10,16 +10,14 @@ class Transfer {
         private string $newDepartment,
         private string $reason,
         private DateTime $dateTime
-    ) {
-
-    }
+    ) { }
 
     public function getOldDepartment() : string {
-        return $this->getOldDepartment;
+        return $this->oldDepartment;
     }
 
     public function getNewDepartment() : string {
-        return $this->getNewDepartment;
+        return $this->newDepartment;
     }
 
     public function getReason() : string {

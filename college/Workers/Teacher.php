@@ -8,6 +8,8 @@ class Teacher extends \College\Entities\Human {
     private ?string $dismissReason = null;
     private ?string $dismissDateTime = null;
     private TransferHistory $transferHistory;
+    private TitleChangeHistory $titleChangeHistory;
+    private ProfileSubjectChangeHistory $profileSubjectChangeHistory;
 
     public function __construct(
         private string $firstName,
@@ -16,11 +18,14 @@ class Teacher extends \College\Entities\Human {
         private string $gender,
         private string $academicDegree, 
         private int $yearsExperience,
+        private string $profileSubject,
         private array $subjects,
         private string $jobTitle,
         private string $department
     ) {
         $this->transferHistory = new TransferHistory();
+        $this->titleChangeHistory = new TitleChangeHistory();
+        $this->profileSubjectChangeHistory = new ProfileSubjectChangeHistory();
         parent::__construct($firstName, $lastName, $birthDate, $gender);
     }
 
@@ -34,6 +39,41 @@ class Teacher extends \College\Entities\Human {
             )
         );
         $this->department = $newDepartment;
+    }
+
+    public function getProfileSubject() {
+        return $this->profileSubject;
+    }
+
+    public function setProfileSubject($value) {
+        $this->profileSubjectChangeHistory->addSubjectChange(
+            new ProfileSubjectChange(
+                $this->profileSubject,
+                $value,
+                new DateTime()
+            )
+        );
+
+        $this->profileSubject = $value;
+    }
+
+    public function getProfileSubjectChangeHistory(){
+        return $this->profileSubjectChangeHistory;
+    }
+
+    public function getJobTitle() {
+        return $this->jobTitle;
+    }
+
+    public function setJobTitle($title) {
+        $this->titleChangeHistory->addTitleChange(
+            new TitleChange(
+                $this->jobTitle,
+                $title,
+                new DateTime()
+            )
+        );
+        $this->jobTitle = $title;
     }
 
     public function getDismissReason() : ?string {
@@ -63,5 +103,9 @@ class Teacher extends \College\Entities\Human {
 
     public function getTransferHistory() : TransferHistory {
         return $this->transferHistory;
+    }
+
+    public function getTitleChangeHistory() : TitleChangeHistory {
+        return $this->titleChangeHistory;
     }
 }
